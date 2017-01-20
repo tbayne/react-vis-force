@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+/* eslint-disable no-console */
+
 import React, { Children, PropTypes, cloneElement } from 'react';
 import { window } from 'global';
 
@@ -37,6 +39,9 @@ export default class InteractiveForceGraph extends PureRenderComponent {
       opacityFactor: PropTypes.number,
       onSelectNode: PropTypes.func,
       onDeselectNode: PropTypes.func,
+      onMuseDown: PropTypes.func,
+      onMouseUp: PropTypes.func,
+      onMouseMove: PropTypes.func,
     }, ForceGraph.propTypes);
   }
 
@@ -47,6 +52,8 @@ export default class InteractiveForceGraph extends PureRenderComponent {
       opacityFactor: 4,
       onSelectNode() {},
       onDeselectNode() {},
+      onMouseUp() {},
+      onMouseDown() {},
     };
   }
 
@@ -82,6 +89,24 @@ export default class InteractiveForceGraph extends PureRenderComponent {
       this.setState({ selectedNode });
       onSelectNode(event, selectedNode);
     }
+  }
+
+  onmousedown(event, selectedNode) {
+    const { onMouseDown } = this.props;
+    console.log('IFG(): onmousedown()', onMouseDown, selectedNode);
+    onMouseDown(event, selectedNode);
+  }
+
+  onmouseup(event) {
+    const { onMouseUp } = this.props;
+    console.log('IFG(): onmouseup()', onMouseUp);
+    onMouseUp(event);
+  }
+
+  onmousemove(event) {
+    const { onMouseMove } = this.props;
+    console.log('IFG(): onmousemove()', onMouseMove);
+    onMouseMove(event);
   }
 
   render() {

@@ -48,6 +48,11 @@ export default class ForceGraph extends PureRenderComponent {
       maxScale: PropTypes.number,
       onZoom: PropTypes.func,
       onPan: PropTypes.func,
+      onMouseDown: PropTypes.func,
+      onMouseUp: PropTypes.func,
+      onMouseMove: PropTypes.func,
+      onSelectNode: PropTypes.func,
+      onUnselectNode: PropTypes.func,
 
       // create custom simulations
       createSimulation: PropTypes.func,
@@ -75,6 +80,9 @@ export default class ForceGraph extends PureRenderComponent {
       showLabels: false,
       onZoom() {},
       onPan() {},
+      onMouseUp() {},
+      onMouseDown() {},
+      onMouseMove() {},
     };
   }
 
@@ -110,7 +118,7 @@ export default class ForceGraph extends PureRenderComponent {
   }
 
   /**
-   * return a map of nodeIds to node positions.
+   * return a map of linkIds to link positions.
    * @param {object} simulation - d3-force simulation
    * @return {object} map of linkIds to positions
    */
@@ -170,12 +178,41 @@ export default class ForceGraph extends PureRenderComponent {
   }
 
   onZoom(event, scale, ...args) {
+    console.log('FG: onZoom()', event, scale, args);
+
+    // Forward the event
     this.props.onZoom(event, scale, ...args);
     this.setState({ scale });
   }
 
   onPan(...args) {
+    console.log('FG: onPan()', args);
+
+    // Forward the event
     this.props.onPan(...args);
+  }
+
+  onMouseMove(...args) {
+    console.log('FG: onMouseMove()', args);
+
+    // Forward the event
+    this.props.onMouseMove(...args);
+  }
+
+  onMouseDown(...args) {
+    console.log('FG: onMouseDown()', args);
+    // are we on a node, if so which one
+
+
+    // Forward the event
+    this.props.onMouseDown(...args);
+  }
+
+  onMouseUp(...args) {
+    console.log('FG: onMouseUp()', args);
+
+    // Forward the event
+    this.props.onMouseUp(...args);
   }
 
   getDataFromChildren(props = this.props, force = false) {
@@ -314,6 +351,9 @@ export default class ForceGraph extends PureRenderComponent {
           maxScale={maxScale}
           onZoom={(...args) => this.onZoom(...args)}
           onPan={(...args) => this.onPan(...args)}
+          onMouseUp={(...args) => this.onMouseUp(...args)}
+          onMouseDown={(...args) => this.onMouseDown(...args)}
+          onMouseMove={(...args) => this.onMouseMove(...args)}
         >
           <g className="rv-force__zoomable-elements">{zoomableChildren}</g>
           <g className="rv-force__links">{linkElements}</g>

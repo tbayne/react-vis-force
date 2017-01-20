@@ -218,6 +218,11 @@ export default class ZoomableSVGGroup extends PureRenderComponent {
   }
 
   onMouseDown(event) {
+    console.log('ZSVG: onMouseDown()');
+    if (this.props.onMouseDown) {
+      this.props.onMouseDown(event);
+    }
+
     if (this.state.touching) {
       event.stopPropagation();
       return null;
@@ -236,6 +241,12 @@ export default class ZoomableSVGGroup extends PureRenderComponent {
   }
 
   onMouseMove(event) {
+    console.log('ZSVG: onMouseMove()');
+
+    if (this.props.onMouseMove) {
+      this.props.onMouseMove(event);
+    }
+
     if (this.state.touching) {
       event.stopPropagation();
       return null;
@@ -249,6 +260,11 @@ export default class ZoomableSVGGroup extends PureRenderComponent {
   }
 
   onMouseUp(event) {
+    console.log('ZSVG: onMOuseUp()');
+    if (this.props.onMouseUp) {
+      this.props.onMouseUp(event);
+    }
+
     if (this.state.touching) {
       event.stopPropagation();
       return null;
